@@ -52,3 +52,21 @@
     - jupyter
     - pyqt5
     - snakemake
+
+- name: install bash-git-prompt
+  git:
+    repo: 'https://github.com/magicmonty/bash-git-prompt.git'
+    dest: /home/masasin/.config/bash-git-prompt
+    update: no
+
+- name: clone dotfiles from github
+  git:
+    repo: 'git@github.com:masasin/dotfiles.git'
+    dest: /home/masasin/.dotfiles
+    update: no
+
+- name: install dotfiles
+  shell: |
+    > cd /home/masasin/.dotfiles/
+    > find . -maxdepth 1 ! -name .git ! -name . -exec cp {} .. \;
+    > find . -maxdepth 1 ! -name .git ! -name . -exec rm -r {} \;
