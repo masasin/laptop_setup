@@ -49,6 +49,7 @@
     name: '{{item}}'
     executable: pip3
   with_items:
+    - wheel
     - jupyter
     - pyqt5
     - snakemake
