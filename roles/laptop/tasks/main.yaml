@@ -1,0 +1,52 @@
+---
+
+- name: install aptitude, required by ansible
+  become: true
+  apt:
+    name: aptitude
+    state: present
+
+- name: add neovim PPA
+  apt_repository:
+    repo: 'ppa:neovim-ppa/stable'
+    state: present
+
+- name: add google-chrome PPA
+  apt_key:
+    url: https://dl-ssl.google.com/linux/linux_signing_key.pub
+    state: present
+
+- name: add google-chrome key
+  apt_repository:
+    repo: deb http://dl.google.com/linux/chrome/deb/ stable main
+    state: present
+
+- name: Update and upgrade apt
+  become: true
+  apt:
+    update_cache: yes
+    upgrade: yes
+
+- name: install packages
+  become: true
+  apt:
+    name: '{{item}}'
+    state: present
+  with_items:
+    - git
+    - make
+    - xclip
+    - neovim
+    - python3-pip
+    - python3-venv
+    - python3-neovim
+    - google-chrome-stable
+
+- name: install global python packages
+  pip:
+    name: '{{item}}'
+    executable: pip3
+  with_items:
+    - jupyter
+    - pyqt5
+    - snakemake
